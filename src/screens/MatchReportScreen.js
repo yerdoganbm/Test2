@@ -148,4 +148,4 @@ const localStyles = StyleSheet.create({
   },
 });
 
-export default MVPVotingScreen;
+export default MatchReportScreen;
