@@ -15,6 +15,7 @@ import {
   Moon,
   Sun,
   MessageSquare,
+  MessageCircle,
   Calendar,
   Wallet,
   Shield,
