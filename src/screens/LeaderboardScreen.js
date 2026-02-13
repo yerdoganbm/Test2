@@ -5,6 +5,7 @@ import {
   StyleSheet,
   ScrollView,
   TouchableOpacity,
+  RefreshControl,
 } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import { Trophy, Target, Shield, TrendingUp, Award } from 'lucide-react-native';
@@ -16,9 +17,15 @@ const LeaderboardScreen = () => {
   const isDarkMode = useStore((state) => state.isDarkMode);
   const users = useStore((state) => state.users);
   const [activeTab, setActiveTab] = useState('goals'); // 'goals', 'assists', 'reliability'
+  const [refreshing, setRefreshing] = useState(false);
   
   const styles = getStyles(isDarkMode);
   const colors = isDarkMode ? require('../constants/theme').Colors.dark : require('../constants/theme').Colors.light;
+  
+  const onRefresh = React.useCallback(() => {
+    setRefreshing(true);
+    setTimeout(() => setRefreshing(false), 1000);
+  }, []);
   
   // Mock statistics - would come from backend
   const getPlayerStats = (userId) => {
@@ -205,6 +212,9 @@ const LeaderboardScreen = () => {
         style={localStyles.container}
         contentContainerStyle={localStyles.contentContainer}
         showsVerticalScrollIndicator={false}
+        refreshControl={
+          <RefreshControl refreshing={refreshing} onRefresh={onRefresh} tintColor={colors.primary} />
+        }
       >
         {sortedPlayers.map((player, index) => renderPlayer(player, index))}
       </ScrollView>

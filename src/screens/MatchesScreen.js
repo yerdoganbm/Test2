@@ -6,6 +6,7 @@ import {
   ScrollView,
   TouchableOpacity,
   FlatList,
+  RefreshControl,
 } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import {
@@ -29,6 +30,12 @@ const MatchesScreen = () => {
   
   const [activeTab, setActiveTab] = useState('upcoming'); // 'upcoming' or 'past'
   const [selectedWeek, setSelectedWeek] = useState(0);
+  const [refreshing, setRefreshing] = useState(false);
+  
+  const onRefresh = React.useCallback(() => {
+    setRefreshing(true);
+    setTimeout(() => setRefreshing(false), 1000);
+  }, []);
   
   const styles = getStyles(isDarkMode);
   const colors = isDarkMode ? require('../constants/theme').Colors.dark : require('../constants/theme').Colors.light;
@@ -330,6 +337,9 @@ const MatchesScreen = () => {
         keyExtractor={(item) => item.id}
         contentContainerStyle={localStyles.matchesList}
         showsVerticalScrollIndicator={false}
+        refreshControl={
+          <RefreshControl refreshing={refreshing} onRefresh={onRefresh} tintColor={colors.primary} />
+        }
         ListEmptyComponent={
           <View style={localStyles.emptyContainer}>
             <Calendar size={48} color={colors.textSecondary} />

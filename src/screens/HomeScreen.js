@@ -7,10 +7,12 @@ import {
   TouchableOpacity,
   Platform,
   Alert,
+  RefreshControl,
 } from 'react-native';
 import * as Linking from 'expo-linking';
 import * as Haptics from 'expo-haptics';
 import { SafeAreaView } from 'react-native-safe-area-context';
+import { useNavigation } from '@react-navigation/native';
 import {
   Clock,
   MapPin,
@@ -27,6 +29,7 @@ import { useStore } from '../store';
 import { getStyles, getColor, Spacing, BorderRadius, Shadows } from '../constants/theme';
 
 const HomeScreen = () => {
+  const navigation = useNavigation();
   const isDarkMode = useStore((state) => state.isDarkMode);
   const currentUser = useStore((state) => state.currentUser);
   const getNextMatch = useStore((state) => state.getNextMatch);
@@ -40,6 +43,7 @@ const HomeScreen = () => {
   const colors = isDarkMode ? require('../constants/theme').Colors.dark : require('../constants/theme').Colors.light;
   
   const [countdown, setCountdown] = useState({ days: 0, hours: 0, minutes: 0 });
+  const [refreshing, setRefreshing] = useState(false);
   
   const nextMatch = getNextMatch();
   const field = nextMatch ? getFieldById(nextMatch.fieldId) : null;
@@ -88,6 +92,13 @@ const HomeScreen = () => {
       Haptics.impactAsync(Haptics.ImpactFeedbackStyle.Medium);
     }
   };
+  
+  const onRefresh = React.useCallback(() => {
+    setRefreshing(true);
+    setTimeout(() => {
+      setRefreshing(false);
+    }, 1000);
+  }, []);
   
   const openMap = async () => {
     if (field) {
@@ -155,6 +166,9 @@ const HomeScreen = () => {
         style={localStyles.container}
         contentContainerStyle={localStyles.contentContainer}
         showsVerticalScrollIndicator={false}
+        refreshControl={
+          <RefreshControl refreshing={refreshing} onRefresh={onRefresh} tintColor={colors.primary} />
+        }
       >
         {/* Hero - Upcoming Match Card (Stitch Style) */}
         <View style={[localStyles.matchCard, { backgroundColor: colors.primary, ...Shadows.large }]}>
@@ -361,6 +375,7 @@ const HomeScreen = () => {
           >
             <TouchableOpacity
               style={[localStyles.quickActionCard, { backgroundColor: colors.card, ...Shadows.medium }]}
+              onPress={() => navigation.navigate('Daha Fazla', { screen: 'Lineup' })}
               activeOpacity={0.8}
             >
               <View style={[localStyles.quickActionIcon, { backgroundColor: colors.accentLight }]}>
@@ -373,6 +388,7 @@ const HomeScreen = () => {
             
             <TouchableOpacity
               style={[localStyles.quickActionCard, { backgroundColor: colors.card, ...Shadows.medium }]}
+              onPress={() => navigation.navigate('Daha Fazla', { screen: 'Payments' })}
               activeOpacity={0.8}
             >
               <View style={[localStyles.quickActionIcon, { backgroundColor: '#FEF3C7' }]}>
@@ -385,6 +401,7 @@ const HomeScreen = () => {
             
             <TouchableOpacity
               style={[localStyles.quickActionCard, { backgroundColor: colors.card, ...Shadows.medium }]}
+              onPress={() => navigation.navigate('Anketler')}
               activeOpacity={0.8}
             >
               <View style={[localStyles.quickActionIcon, { backgroundColor: '#DBEAFE' }]}>

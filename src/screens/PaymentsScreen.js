@@ -6,6 +6,7 @@ import {
   ScrollView,
   TouchableOpacity,
   Alert,
+  RefreshControl,
 } from 'react-native';
 import * as Clipboard from 'expo-clipboard';
 import * as Linking from 'expo-linking';
@@ -37,7 +38,14 @@ const PaymentsScreen = () => {
   const styles = getStyles(isDarkMode);
   const colors = isDarkMode ? require('../constants/theme').Colors.dark : require('../constants/theme').Colors.light;
   
+  const [refreshing, setRefreshing] = useState(false);
+  
   const isAdmin = currentUser.role === 'ADMIN';
+  
+  const onRefresh = React.useCallback(() => {
+    setRefreshing(true);
+    setTimeout(() => setRefreshing(false), 1000);
+  }, []);
   const nextMatch = getNextMatch();
   const matchPayments = payments.filter((p) => p.matchId === nextMatch?.id);
   
@@ -234,6 +242,9 @@ const PaymentsScreen = () => {
         style={localStyles.container}
         contentContainerStyle={localStyles.contentContainer}
         showsVerticalScrollIndicator={false}
+        refreshControl={
+          <RefreshControl refreshing={refreshing} onRefresh={onRefresh} tintColor={colors.primary} />
+        }
       >
         {/* Treasury Card */}
         <View

@@ -54,6 +54,8 @@ const MoreStack = () => {
         headerTitleStyle: {
           fontWeight: '700',
         },
+        animation: 'slide_from_right',
+        presentation: 'card',
       }}
     >
       <Stack.Screen name="MoreMain" component={MoreScreen} options={{ headerShown: false }} />
@@ -129,6 +131,7 @@ const AppNavigator = () => {
             fontWeight: '600',
             marginTop: 4,
           },
+          animation: 'shift',
           headerStyle: {
             backgroundColor: getColor('background', isDarkMode),
             borderBottomColor: getColor('border', isDarkMode),

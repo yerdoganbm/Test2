@@ -8,7 +8,8 @@ import {
   Modal,
   TextInput,
   Alert,
-} from 'react';
+  RefreshControl,
+} from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import { Vote, Plus, X, Check } from 'lucide-react-native';
 import { useStore } from '../store';
@@ -22,11 +23,17 @@ const PollsScreen = () => {
   const currentUser = useStore((state) => state.currentUser);
   
   const [showCreatePoll, setShowCreatePoll] = useState(false);
+  const [refreshing, setRefreshing] = useState(false);
   const [newPoll, setNewPoll] = useState({
     title: '',
     description: '',
     options: ['', ''],
   });
+  
+  const onRefresh = React.useCallback(() => {
+    setRefreshing(true);
+    setTimeout(() => setRefreshing(false), 1000);
+  }, []);
   
   const styles = getStyles(isDarkMode);
   const colors = isDarkMode ? require('../constants/theme').Colors.dark : require('../constants/theme').Colors.light;
@@ -124,6 +131,9 @@ const PollsScreen = () => {
         style={localStyles.container}
         contentContainerStyle={localStyles.contentContainer}
         showsVerticalScrollIndicator={false}
+        refreshControl={
+          <RefreshControl refreshing={refreshing} onRefresh={onRefresh} tintColor={colors.primary} />
+        }
       >
         {/* Header */}
         <View style={localStyles.header}>
