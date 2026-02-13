@@ -5,13 +5,7 @@
     "version": "1.0.0",
     "platforms": ["ios", "android", "web"],
     "orientation": "portrait",
-    "icon": "./assets/icon.png",
     "userInterfaceStyle": "automatic",
-    "splash": {
-      "image": "./assets/splash.png",
-      "resizeMode": "contain",
-      "backgroundColor": "#10B981"
-    },
     "assetBundlePatterns": [
       "**/*"
     ],
@@ -33,10 +27,6 @@
       }
     },
     "android": {
-      "adaptiveIcon": {
-        "foregroundImage": "./assets/adaptive-icon.png",
-        "backgroundColor": "#10B981"
-      },
       "package": "com.halisaha.otomasyon",
       "permissions": [
         "ACCESS_FINE_LOCATION",
@@ -44,7 +34,7 @@
       ]
     },
     "web": {
-      "favicon": "./assets/favicon.png"
+      "bundler": "metro"
     }
   }
 }
