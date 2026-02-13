@@ -1,80 +1,138 @@
 import { Platform } from 'react-native';
 
-// Color Palette
+// Color Palette - Enhanced for Stitch Design
 export const Colors = {
   light: {
-    // Primary Colors
+    // Primary Colors - Stitch Green
     primary: '#10B981', // Emerald Green
     primaryLight: '#34D399',
     primaryDark: '#059669',
+    primaryGradientStart: '#10B981',
+    primaryGradientEnd: '#059669',
     
     // Background Colors
     background: '#FFFFFF',
-    backgroundSecondary: '#F9FAFB',
-    card: '#F9FAFB',
+    backgroundSecondary: '#F8FAFC',
+    backgroundTertiary: '#F1F5F9',
+    card: '#FFFFFF',
+    cardSecondary: '#F9FAFB',
     cardHover: '#F3F4F6',
     
     // Text Colors
-    text: '#111827',
-    textSecondary: '#6B7280',
-    textTertiary: '#9CA3AF',
+    text: '#0F172A',
+    textSecondary: '#64748B',
+    textTertiary: '#94A3B8',
+    textInverse: '#FFFFFF',
     
     // Status Colors
     success: '#10B981',
+    successLight: '#D1FAE5',
     error: '#EF4444',
+    errorLight: '#FEE2E2',
     warning: '#F59E0B',
+    warningLight: '#FEF3C7',
     info: '#3B82F6',
+    infoLight: '#DBEAFE',
     
     // Functional Colors
-    border: '#E5E7EB',
-    borderLight: '#F3F4F6',
-    shadow: 'rgba(0, 0, 0, 0.1)',
-    overlay: 'rgba(0, 0, 0, 0.5)',
+    border: '#E2E8F0',
+    borderLight: '#F1F5F9',
+    borderDark: '#CBD5E1',
+    shadow: 'rgba(15, 23, 42, 0.08)',
+    shadowMedium: 'rgba(15, 23, 42, 0.12)',
+    shadowLarge: 'rgba(15, 23, 42, 0.16)',
+    overlay: 'rgba(15, 23, 42, 0.6)',
     
     // Accent Colors
     accent: '#10B981',
     accentLight: '#D1FAE5',
+    accentDark: '#047857',
+    
+    // Special Colors - Stitch Style
+    purple: '#8B5CF6',
+    purpleLight: '#EDE9FE',
+    orange: '#F97316',
+    orangeLight: '#FFEDD5',
+    blue: '#3B82F6',
+    blueLight: '#DBEAFE',
+    pink: '#EC4899',
+    pinkLight: '#FCE7F3',
     
     // Field Colors
     fieldGreen: '#22C55E',
     fieldDark: '#16A34A',
+    fieldLight: '#DCFCE7',
+    
+    // Performance Colors
+    mvp: '#F59E0B',
+    topScorer: '#EF4444',
+    bestDefender: '#3B82F6',
   },
   dark: {
-    // Primary Colors
+    // Primary Colors - Stitch Green
     primary: '#10B981',
     primaryLight: '#34D399',
     primaryDark: '#059669',
+    primaryGradientStart: '#10B981',
+    primaryGradientEnd: '#047857',
     
     // Background Colors
-    background: '#111827',
-    backgroundSecondary: '#1F2937',
-    card: '#1F2937',
-    cardHover: '#374151',
+    background: '#0F172A',
+    backgroundSecondary: '#1E293B',
+    backgroundTertiary: '#334155',
+    card: '#1E293B',
+    cardSecondary: '#334155',
+    cardHover: '#475569',
     
     // Text Colors
-    text: '#F9FAFB',
-    textSecondary: '#D1D5DB',
-    textTertiary: '#9CA3AF',
+    text: '#F8FAFC',
+    textSecondary: '#CBD5E1',
+    textTertiary: '#94A3B8',
+    textInverse: '#0F172A',
     
     // Status Colors
     success: '#10B981',
+    successLight: '#064E3B',
     error: '#EF4444',
+    errorLight: '#7F1D1D',
     warning: '#F59E0B',
+    warningLight: '#78350F',
     info: '#3B82F6',
+    infoLight: '#1E3A8A',
     
     // Functional Colors
-    border: '#374151',
-    borderLight: '#4B5563',
-    shadow: 'rgba(0, 0, 0, 0.3)',
-    overlay: 'rgba(0, 0, 0, 0.7)',
+    border: '#334155',
+    borderLight: '#475569',
+    borderDark: '#1E293B',
+    shadow: 'rgba(0, 0, 0, 0.4)',
+    shadowMedium: 'rgba(0, 0, 0, 0.5)',
+    shadowLarge: 'rgba(0, 0, 0, 0.6)',
+    overlay: 'rgba(0, 0, 0, 0.8)',
     
     // Accent Colors
     accent: '#10B981',
-    accentLight: '#065F46',
+    accentLight: '#064E3B',
+    accentDark: '#34D399',
+    
+    // Special Colors - Stitch Style
+    purple: '#A78BFA',
+    purpleLight: '#4C1D95',
+    orange: '#FB923C',
+    orangeLight: '#7C2D12',
+    blue: '#60A5FA',
+    blueLight: '#1E3A8A',
+    pink: '#F472B6',
+    pinkLight: '#831843',
     
     // Field Colors
     fieldGreen: '#22C55E',
     fieldDark: '#16A34A',
+    fieldLight: '#14532D',
+    
+    // Performance Colors
+    mvp: '#FCD34D',
+    topScorer: '#F87171',
+    bestDefender: '#60A5FA',
   }
 };
 
@@ -311,6 +369,102 @@ export const getStyles = (isDarkMode = false) => {
       backgroundColor: colors.border,
       marginVertical: Spacing.base,
     },
+    
+    // Stitch-specific Components
+    gradientCard: {
+      borderRadius: BorderRadius.lg,
+      padding: Spacing.lg,
+      ...Shadows.large,
+    },
+    
+    glassmorphism: {
+      backgroundColor: isDarkMode 
+        ? 'rgba(30, 41, 59, 0.7)' 
+        : 'rgba(255, 255, 255, 0.7)',
+      borderRadius: BorderRadius.lg,
+      borderWidth: 1,
+      borderColor: isDarkMode ? 'rgba(148, 163, 184, 0.1)' : 'rgba(15, 23, 42, 0.05)',
+      backdropFilter: 'blur(20px)',
+      ...Shadows.glass,
+    },
+    
+    statBadge: {
+      flexDirection: 'row',
+      alignItems: 'center',
+      paddingHorizontal: Spacing.md,
+      paddingVertical: Spacing.xs,
+      borderRadius: BorderRadius.full,
+      gap: Spacing.xs,
+    },
+    
+    avatarCircle: {
+      width: 48,
+      height: 48,
+      borderRadius: 24,
+      justifyContent: 'center',
+      alignItems: 'center',
+      borderWidth: 2,
+      borderColor: colors.primary,
+    },
+    
+    avatarLarge: {
+      width: 80,
+      height: 80,
+      borderRadius: 40,
+      justifyContent: 'center',
+      alignItems: 'center',
+      borderWidth: 3,
+      borderColor: colors.primary,
+    },
+    
+    progressBar: {
+      height: 8,
+      backgroundColor: colors.borderLight,
+      borderRadius: BorderRadius.full,
+      overflow: 'hidden',
+    },
+    
+    progressFill: {
+      height: '100%',
+      backgroundColor: colors.primary,
+      borderRadius: BorderRadius.full,
+    },
+    
+    floatingButton: {
+      width: 56,
+      height: 56,
+      borderRadius: 28,
+      backgroundColor: colors.primary,
+      justifyContent: 'center',
+      alignItems: 'center',
+      ...Shadows.large,
+    },
+    
+    bottomSheet: {
+      backgroundColor: colors.card,
+      borderTopLeftRadius: BorderRadius.xl,
+      borderTopRightRadius: BorderRadius.xl,
+      paddingTop: Spacing.sm,
+      ...Shadows.large,
+    },
+    
+    chip: {
+      paddingHorizontal: Spacing.md,
+      paddingVertical: Spacing.xs,
+      borderRadius: BorderRadius.full,
+      backgroundColor: colors.backgroundSecondary,
+      borderWidth: 1,
+      borderColor: colors.border,
+    },
+    
+    chipActive: {
+      paddingHorizontal: Spacing.md,
+      paddingVertical: Spacing.xs,
+      borderRadius: BorderRadius.full,
+      backgroundColor: colors.primary,
+      borderWidth: 1,
+      borderColor: colors.primary,
+    },
   };
 };
 
@@ -329,6 +483,39 @@ export const hexToRgba = (hex, alpha = 1) => {
     return `rgba(${r}, ${g}, ${b}, ${alpha})`;
   }
   return hex;
+};
+
+// Stitch Utility Functions
+export const createGradient = (colors, angle = 90) => {
+  return {
+    colors: colors,
+    start: { x: 0, y: 0 },
+    end: angle === 90 ? { x: 0, y: 1 } : { x: 1, y: 0 },
+  };
+};
+
+export const getStatusColor = (status, isDarkMode = false) => {
+  const colors = isDarkMode ? Colors.dark : Colors.light;
+  const statusMap = {
+    success: colors.success,
+    error: colors.error,
+    warning: colors.warning,
+    info: colors.info,
+    pending: colors.warning,
+    completed: colors.success,
+    cancelled: colors.error,
+  };
+  return statusMap[status] || colors.textSecondary;
+};
+
+export const getPerformanceColor = (type, isDarkMode = false) => {
+  const colors = isDarkMode ? Colors.dark : Colors.light;
+  const perfMap = {
+    mvp: colors.mvp,
+    topScorer: colors.topScorer,
+    bestDefender: colors.bestDefender,
+  };
+  return perfMap[type] || colors.primary;
 };
 
 export default {
