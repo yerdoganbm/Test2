@@ -12,7 +12,6 @@ import {
   KeyboardAvoidingView,
   Platform,
 } from 'react-native';
-import DateTimePicker from '@react-native-community/datetimepicker';
 import * as Haptics from 'expo-haptics';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import {
@@ -52,13 +51,10 @@ const AdminScreen = () => {
   // Create Match Form State
   const [matchForm, setMatchForm] = useState({
     fieldId: '',
-    date: new Date(),
-    time: new Date(),
+    date: '',
+    time: '',
     costTotal: '',
   });
-  
-  const [showDatePicker, setShowDatePicker] = useState(false);
-  const [showTimePicker, setShowTimePicker] = useState(false);
   
   const isAdmin = currentUser.role === 'ADMIN';
   
@@ -79,15 +75,15 @@ const AdminScreen = () => {
   }
   
   const handleCreateMatch = () => {
-    if (!matchForm.fieldId || !matchForm.costTotal) {
+    if (!matchForm.fieldId || !matchForm.date || !matchForm.time || !matchForm.costTotal) {
       Alert.alert('Hata', 'Lütfen tüm alanları doldurun');
       return;
     }
     
-    // Combine date and time
-    const startsAt = new Date(matchForm.date);
-    startsAt.setHours(matchForm.time.getHours());
-    startsAt.setMinutes(matchForm.time.getMinutes());
+    // Parse date and time strings
+    const [year, month, day] = matchForm.date.split('-').map(Number);
+    const [hours, minutes] = matchForm.time.split(':').map(Number);
+    const startsAt = new Date(year, month - 1, day, hours, minutes);
     
     const match = createMatch({
       fieldId: matchForm.fieldId,
@@ -99,7 +95,7 @@ const AdminScreen = () => {
     Haptics.notificationAsync(Haptics.NotificationFeedbackType.Success);
     Alert.alert('Başarılı', 'Yeni maç oluşturuldu');
     setShowCreateMatch(false);
-    setMatchForm({ fieldId: '', date: new Date(), time: new Date(), costTotal: '' });
+    setMatchForm({ fieldId: '', date: '', time: '', costTotal: '' });
   };
   
   const handleEditMember = (user) => {
@@ -399,71 +395,33 @@ const AdminScreen = () => {
               
               {/* Date */}
               <Text style={[styles.body, { marginTop: Spacing.base, marginBottom: Spacing.xs }]}>
-                Tarih
+                Tarih (YYYY-MM-DD)
               </Text>
-              <TouchableOpacity
+              <TextInput
                 style={[
                   styles.input,
-                  { backgroundColor: colors.backgroundSecondary, justifyContent: 'center' },
+                  { backgroundColor: colors.backgroundSecondary },
                 ]}
-                onPress={() => setShowDatePicker(true)}
-              >
-                <Text style={{ color: colors.text }}>
-                  {matchForm.date.toLocaleDateString('tr-TR', {
-                    year: 'numeric',
-                    month: 'long',
-                    day: 'numeric',
-                  })}
-                </Text>
-              </TouchableOpacity>
-              {showDatePicker && (
-                <DateTimePicker
-                  value={matchForm.date}
-                  mode="date"
-                  display="spinner"
-                  onChange={(event, selectedDate) => {
-                    setShowDatePicker(Platform.OS === 'ios');
-                    if (selectedDate) {
-                      setMatchForm({ ...matchForm, date: selectedDate });
-                      Haptics.impactAsync(Haptics.ImpactFeedbackStyle.Light);
-                    }
-                  }}
-                  minimumDate={new Date()}
-                />
-              )}
+                placeholder="2026-02-20"
+                placeholderTextColor={colors.textSecondary}
+                value={matchForm.date}
+                onChangeText={(text) => setMatchForm({ ...matchForm, date: text })}
+              />
               
               {/* Time */}
               <Text style={[styles.body, { marginTop: Spacing.base, marginBottom: Spacing.xs }]}>
-                Saat
+                Saat (HH:MM)
               </Text>
-              <TouchableOpacity
+              <TextInput
                 style={[
                   styles.input,
-                  { backgroundColor: colors.backgroundSecondary, justifyContent: 'center' },
+                  { backgroundColor: colors.backgroundSecondary },
                 ]}
-                onPress={() => setShowTimePicker(true)}
-              >
-                <Text style={{ color: colors.text }}>
-                  {matchForm.time.toLocaleTimeString('tr-TR', {
-                    hour: '2-digit',
-                    minute: '2-digit',
-                  })}
-                </Text>
-              </TouchableOpacity>
-              {showTimePicker && (
-                <DateTimePicker
-                  value={matchForm.time}
-                  mode="time"
-                  display="spinner"
-                  onChange={(event, selectedTime) => {
-                    setShowTimePicker(Platform.OS === 'ios');
-                    if (selectedTime) {
-                      setMatchForm({ ...matchForm, time: selectedTime });
-                      Haptics.impactAsync(Haptics.ImpactFeedbackStyle.Light);
-                    }
-                  }}
-                />
-              )}
+                placeholder="19:00"
+                placeholderTextColor={colors.textSecondary}
+                value={matchForm.time}
+                onChangeText={(text) => setMatchForm({ ...matchForm, time: text })}
+              />
               
               {/* Cost */}
               <Text style={[styles.body, { marginTop: Spacing.base, marginBottom: Spacing.xs }]}>
