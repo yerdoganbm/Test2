@@ -1,16 +1,16 @@
 import React from 'react';
 import { NavigationContainer } from '@react-navigation/native';
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
-import { Home, Calendar, Users, Wallet, Settings } from 'lucide-react-native';
+import { Home, Calendar, Vote, TrendingUp, MoreHorizontal } from 'lucide-react-native';
 import { useStore } from '../store';
 import { getColor } from '../constants/theme';
 
 // Import Screens
 import HomeScreen from '../screens/HomeScreen';
 import MatchesScreen from '../screens/MatchesScreen';
-import LineupScreen from '../screens/LineupScreen';
-import PaymentsScreen from '../screens/PaymentsScreen';
-import AdminScreen from '../screens/AdminScreen';
+import PollsScreen from '../screens/PollsScreen';
+import LeaderboardScreen from '../screens/LeaderboardScreen';
+import MoreScreen from '../screens/MoreScreen';
 
 const Tab = createBottomTabNavigator();
 
@@ -31,14 +31,14 @@ const AppNavigator = () => {
               case 'Maçlar':
                 IconComponent = Calendar;
                 break;
-              case 'Kadro':
-                IconComponent = Users;
+              case 'Anketler':
+                IconComponent = Vote;
                 break;
-              case 'Ödemeler':
-                IconComponent = Wallet;
+              case 'İstatistik':
+                IconComponent = TrendingUp;
                 break;
-              case 'Admin':
-                IconComponent = Settings;
+              case 'Daha Fazla':
+                IconComponent = MoreHorizontal;
                 break;
               default:
                 IconComponent = Home;
@@ -91,24 +91,24 @@ const AppNavigator = () => {
           }}
         />
         <Tab.Screen 
-          name="Kadro" 
-          component={LineupScreen}
+          name="Anketler" 
+          component={PollsScreen}
           options={{
-            headerTitle: 'Kadro & Takımlar',
+            headerTitle: 'Grup Anketleri',
           }}
         />
         <Tab.Screen 
-          name="Ödemeler" 
-          component={PaymentsScreen}
+          name="İstatistik" 
+          component={LeaderboardScreen}
           options={{
-            headerTitle: 'Ödemeler & Kasa',
+            headerShown: false,
           }}
         />
         <Tab.Screen 
-          name="Admin" 
-          component={AdminScreen}
+          name="Daha Fazla" 
+          component={MoreScreen}
           options={{
-            headerTitle: 'Yönetim Paneli',
+            headerTitle: 'Menü',
           }}
         />
       </Tab.Navigator>

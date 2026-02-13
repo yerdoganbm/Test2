@@ -156,14 +156,22 @@ const HomeScreen = () => {
         contentContainerStyle={localStyles.contentContainer}
         showsVerticalScrollIndicator={false}
       >
-        {/* Match Day Card */}
+        {/* Hero - Upcoming Match Card (Stitch Style) */}
         <View style={[localStyles.matchCard, { backgroundColor: colors.primary, ...Shadows.large }]}>
+          {/* Countdown Badge */}
+          <View style={localStyles.countdownBadge}>
+            <Clock size={18} color="#FFFFFF" />
+            <Text style={localStyles.countdownBadgeText}>
+              {countdown.days > 0 && `${countdown.days}g `}
+              {countdown.hours}:{countdown.minutes.toString().padStart(2, '0')}
+            </Text>
+          </View>
+          
           <View style={localStyles.matchCardHeader}>
-            <Text style={localStyles.matchCardTitle}>Bir Sonraki Maç</Text>
-            <View style={localStyles.countdownContainer}>
-              <Clock size={20} color="#FFFFFF" />
-              <Text style={localStyles.countdownText}>
-                {countdown.days}g {countdown.hours}s {countdown.minutes}dk
+            <Text style={localStyles.matchCardTitle}>Yaklaşan Maç</Text>
+            <View style={[localStyles.statusBadgeHero, { backgroundColor: 'rgba(255,255,255,0.2)' }]}>
+              <Text style={localStyles.statusBadgeHeroText}>
+                {yesCount} / 14 Oyuncu
               </Text>
             </View>
           </View>
@@ -443,31 +451,47 @@ const localStyles = StyleSheet.create({
     borderRadius: BorderRadius.lg,
     padding: Spacing.lg,
     marginBottom: Spacing.lg,
+    position: 'relative',
   },
-  matchCardHeader: {
-    flexDirection: 'row',
-    justifyContent: 'space-between',
-    alignItems: 'center',
-    marginBottom: Spacing.lg,
-  },
-  matchCardTitle: {
-    fontSize: 20,
-    fontWeight: '700',
-    color: '#FFFFFF',
-  },
-  countdownContainer: {
+  countdownBadge: {
+    position: 'absolute',
+    top: Spacing.base,
+    right: Spacing.base,
     flexDirection: 'row',
     alignItems: 'center',
-    backgroundColor: 'rgba(255, 255, 255, 0.2)',
+    backgroundColor: 'rgba(0, 0, 0, 0.3)',
     paddingHorizontal: Spacing.md,
     paddingVertical: Spacing.xs,
     borderRadius: BorderRadius.full,
+    gap: 6,
+    ...Shadows.medium,
   },
-  countdownText: {
+  countdownBadgeText: {
     fontSize: 14,
+    fontWeight: '700',
+    color: '#FFFFFF',
+  },
+  matchCardHeader: {
+    marginBottom: Spacing.base,
+  },
+  matchCardTitle: {
+    fontSize: 16,
     fontWeight: '600',
     color: '#FFFFFF',
-    marginLeft: Spacing.xs,
+    opacity: 0.9,
+    marginBottom: Spacing.xs,
+  },
+  statusBadgeHero: {
+    alignSelf: 'flex-start',
+    paddingHorizontal: Spacing.md,
+    paddingVertical: Spacing.xs,
+    borderRadius: BorderRadius.full,
+    marginTop: Spacing.xs,
+  },
+  statusBadgeHeroText: {
+    fontSize: 13,
+    fontWeight: '600',
+    color: '#FFFFFF',
   },
   matchInfo: {
     gap: Spacing.base,
