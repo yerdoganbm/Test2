@@ -16,17 +16,44 @@
     ],
     "ios": {
       "supportsTablet": true,
-      "bundleIdentifier": "com.halisaha.otomasyon"
+      "bundleIdentifier": "com.halisaha.otomasyon",
+      "buildNumber": "1.0.0",
+      "infoPlist": {
+        "NSLocationWhenInUseUsageDescription": "Bu uygulama saha konumunu haritada göstermek için konum bilgisine ihtiyaç duyar.",
+        "NSPhotoLibraryUsageDescription": "Profil fotoğrafı yüklemek için fotoğraf kütüphanesine erişim gerekiyor.",
+        "NSCameraUsageDescription": "Profil fotoğrafı çekmek için kameraya erişim gerekiyor.",
+        "NSCalendarsUsageDescription": "Maç tarihlerini takviminize eklemek için takvim erişimi gerekiyor.",
+        "NSRemindersUsageDescription": "Maç hatırlatmaları oluşturmak için hatırlatıcılar erişimi gerekiyor.",
+        "LSApplicationQueriesSchemes": [
+          "whatsapp",
+          "maps",
+          "comgooglemaps"
+        ]
+      }
     },
     "android": {
       "adaptiveIcon": {
         "foregroundImage": "./assets/adaptive-icon.png",
         "backgroundColor": "#10B981"
       },
-      "package": "com.halisaha.otomasyon"
+      "package": "com.halisaha.otomasyon",
+      "permissions": [
+        "ACCESS_FINE_LOCATION",
+        "ACCESS_COARSE_LOCATION"
+      ]
     },
     "web": {
       "favicon": "./assets/favicon.png"
-    }
+    },
+    "plugins": [
+      [
+        "expo-build-properties",
+        {
+          "ios": {
+            "useFrameworks": "static"
+          }
+        }
+      ]
+    ]
   }
 }

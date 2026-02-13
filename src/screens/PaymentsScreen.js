@@ -5,10 +5,11 @@ import {
   StyleSheet,
   ScrollView,
   TouchableOpacity,
-  Clipboard,
   Alert,
-  Linking,
 } from 'react-native';
+import * as Clipboard from 'expo-clipboard';
+import * as Linking from 'expo-linking';
+import * as Haptics from 'expo-haptics';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import {
   Wallet,
@@ -47,12 +48,13 @@ const PaymentsScreen = () => {
   const totalExpected = matchPayments.reduce((sum, p) => sum + p.amount, 0);
   const unpaidCount = matchPayments.filter((p) => p.status === 'UNPAID').length;
   
-  const copyToClipboard = (text) => {
-    Clipboard.setString(text);
+  const copyToClipboard = async (text) => {
+    await Clipboard.setStringAsync(text);
+    Haptics.notificationAsync(Haptics.NotificationFeedbackType.Success);
     Alert.alert('Kopyalandı', 'IBAN numarası kopyalandı');
   };
   
-  const sendWhatsAppReminder = (payment) => {
+  const sendWhatsAppReminder = async (payment) => {
     const user = getUserById(payment.userId);
     if (!user) return;
     
@@ -65,9 +67,13 @@ const PaymentsScreen = () => {
     const phone = user.phone.replace('+', '');
     const url = `whatsapp://send?phone=${phone}&text=${encodeURIComponent(template)}`;
     
-    Linking.openURL(url).catch(() => {
-      Alert.alert('Hata', 'WhatsApp açılamadı');
-    });
+    const canOpen = await Linking.canOpenURL(url);
+    if (canOpen) {
+      Haptics.impactAsync(Haptics.ImpactFeedbackStyle.Light);
+      await Linking.openURL(url);
+    } else {
+      Alert.alert('Hata', 'WhatsApp yüklü değil veya açılamadı');
+    }
   };
   
   const handleMarkAsPaid = (paymentId) => {
@@ -79,7 +85,10 @@ const PaymentsScreen = () => {
           { text: 'İptal', style: 'cancel' },
           {
             text: 'Onayla',
-            onPress: () => updatePaymentStatus(paymentId, 'PAID', true),
+            onPress: () => {
+              updatePaymentStatus(paymentId, 'PAID', true);
+              Haptics.notificationAsync(Haptics.NotificationFeedbackType.Success);
+            },
           },
         ]
       );

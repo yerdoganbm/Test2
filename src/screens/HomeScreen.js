@@ -5,9 +5,11 @@ import {
   StyleSheet,
   ScrollView,
   TouchableOpacity,
-  Linking,
   Platform,
+  Alert,
 } from 'react-native';
+import * as Linking from 'expo-linking';
+import * as Haptics from 'expo-haptics';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import {
   Clock,
@@ -83,10 +85,11 @@ const HomeScreen = () => {
   const handleAttendanceUpdate = (status) => {
     if (nextMatch) {
       updateAttendance(nextMatch.id, currentUser.id, status);
+      Haptics.impactAsync(Haptics.ImpactFeedbackStyle.Medium);
     }
   };
   
-  const openMap = () => {
+  const openMap = async () => {
     if (field) {
       const scheme = Platform.select({
         ios: 'maps:0,0?q=',
@@ -99,7 +102,17 @@ const HomeScreen = () => {
         android: `${scheme}${latLng}(${label})`,
       });
       
-      Linking.openURL(url);
+      try {
+        const canOpen = await Linking.canOpenURL(url);
+        if (canOpen) {
+          Haptics.impactAsync(Haptics.ImpactFeedbackStyle.Light);
+          await Linking.openURL(url);
+        } else {
+          Alert.alert('Hata', 'Harita uygulaması açılamadı');
+        }
+      } catch (error) {
+        Alert.alert('Hata', 'Harita uygulaması açılamadı');
+      }
     }
   };
   
