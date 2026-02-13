@@ -377,11 +377,34 @@ export const useStore = create((set, get) => ({
   // Settings
   appSettings: {
     ibanNumber: 'TR33 0006 1005 1978 6457 8413 26',
+    groupCode: 'HALISAHA2024',
     whatsappTemplates: {
       matchInvite: '🏆 Maç Daveti!\n\n📅 Tarih: {date}\n⏰ Saat: {time}\n📍 Saha: {field}\n💰 Ücret: {cost} TL\n\nKatılım durumunuzu bildirin!',
       paymentReminder: '💰 Ödeme Hatırlatması\n\nMerhaba {name},\n\n{date} tarihli maç için {amount} TL ödeme bekleniyor.\n\nIBAN: {iban}',
     },
   },
+  
+  // Additional Data
+  penalties: [
+    { id: 'pen1', userId: '6', type: 'late_cancel', date: new Date('2026-02-10'), fine: 30, paid: false },
+    { id: 'pen2', userId: '13', type: 'no_show', date: new Date('2026-02-08'), fine: 50, paid: false },
+  ],
+  
+  matchTemplates: [
+    { id: 't1', name: 'Pazartesi Maçı', dayOfWeek: 1, time: '19:00', fieldId: 'f1', active: true },
+    { id: 't2', name: 'Çarşamba Maçı', dayOfWeek: 3, time: '20:00', fieldId: 'f2', active: true },
+  ],
+  
+  pendingMembers: [
+    { id: 'pm1', nickname: 'Yeni Oyuncu 1', phone: '+905551234590', requestedAt: new Date() },
+    { id: 'pm2', nickname: 'Yeni Oyuncu 2', phone: '+905551234591', requestedAt: new Date() },
+  ],
+  
+  groupRules: [
+    { id: 'r1', title: '24 saat öncesine kadar iptal', penalty: 30 },
+    { id: 'r2', title: 'Maça gelmemek', penalty: 50 },
+    { id: 'r3', title: 'Geç ödeme', penalty: 0, scoreDeduction: 5 },
+  ],
   
   // Actions
   toggleDarkMode: () => set((state) => ({ isDarkMode: !state.isDarkMode })),

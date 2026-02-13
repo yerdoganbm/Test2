@@ -20,6 +20,13 @@ import {
   Shield,
   LogOut,
   ChevronRight,
+  MapPin,
+  UserPlus,
+  UserCheck,
+  FileText,
+  TrendingUp,
+  AlertCircle,
+  AlertTriangle,
 } from 'lucide-react-native';
 import { useStore } from '../store';
 import { getStyles, getColor, Spacing, BorderRadius, Shadows } from '../constants/theme';
@@ -36,45 +43,24 @@ const MoreScreen = ({ navigation }) => {
   const isAdmin = currentUser.role === 'ADMIN';
   
   const menuItems = [
-    {
-      id: 'profile',
-      title: 'Profilim',
-      icon: User,
-      color: colors.primary,
-      onPress: () => {},
-    },
-    {
-      id: 'payments',
-      title: 'Ödemeler',
-      icon: Wallet,
-      color: colors.info,
-      screen: 'Ödemeler',
-    },
-    {
-      id: 'lineup',
-      title: 'Kadro',
-      icon: Users,
-      color: colors.purple,
-      screen: 'Kadro',
-    },
-    {
-      id: 'whatsapp',
-      title: 'WhatsApp Mesajları',
-      icon: MessageSquare,
-      color: '#25D366',
-      admin: true,
-    },
+    { id: 'lineup', title: 'Kadro & Takımlar', icon: Users, color: colors.primary, screen: 'Lineup' },
+    { id: 'payments', title: 'Ödemeler', icon: Wallet, color: colors.info, screen: 'Payments' },
+    { id: 'fields', title: 'Saha Rehberi', icon: MapPin, color: colors.fieldGreen, screen: 'FieldsGuide' },
+    { id: 'rules', title: 'Grup Kuralları', icon: Users, color: colors.purple, screen: 'Rules' },
   ];
   
-  if (isAdmin) {
-    menuItems.push({
-      id: 'admin',
-      title: 'Yönetim Paneli',
-      icon: Shield,
-      color: colors.error,
-      screen: 'Admin',
-    });
-  }
+  const adminMenuItems = [
+    { id: 'admin', title: 'Yönetim Paneli', icon: Shield, color: colors.error, screen: 'Admin' },
+    { id: 'invite', title: 'Gruba Davet Et', icon: UserPlus, color: colors.success, screen: 'Invite' },
+    { id: 'approval', title: 'Katılım Onayı', icon: UserCheck, color: colors.warning, screen: 'JoinApproval' },
+    { id: 'whatsapp', title: 'WhatsApp Hub', icon: MessageCircle, color: '#25D366', screen: 'WhatsAppIntegration' },
+    { id: 'templates', title: 'Mesaj Şablonları', icon: FileText, color: colors.info, screen: 'MessageTemplate' },
+    { id: 'treasury', title: 'Kasa Raporları', icon: TrendingUp, color: colors.success, screen: 'TreasuryReports' },
+    { id: 'debt', title: 'Borç Takibi', icon: AlertCircle, color: colors.error, screen: 'DebtTracking' },
+    { id: 'penalties', title: 'Ceza Yönetimi', icon: AlertTriangle, color: colors.warning, screen: 'PenaltyManagement' },
+    { id: 'fieldMgmt', title: 'Saha Yönetimi', icon: MapPin, color: colors.fieldGreen, screen: 'FieldManagement' },
+    { id: 'matchTemplates', title: 'Maç Şablonları', icon: Calendar, color: colors.purple, screen: 'MatchTemplates' },
+  ];
   
   const renderMenuItem = (item) => {
     if (item.admin && !isAdmin) return null;
