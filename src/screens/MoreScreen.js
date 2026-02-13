@@ -62,32 +62,51 @@ const MoreScreen = ({ navigation }) => {
     { id: 'matchTemplates', title: 'Maç Şablonları', icon: Calendar, color: colors.purple, screen: 'MatchTemplates' },
   ];
   
-  const renderMenuItem = (item) => {
-    if (item.admin && !isAdmin) return null;
-    
-    return (
-      <TouchableOpacity
-        key={item.id}
-        style={[
-          localStyles.menuItem,
-          {
-            backgroundColor: colors.card,
-            ...Shadows.small,
-          },
-        ]}
-        onPress={() => item.screen ? navigation.navigate(item.screen) : item.onPress?.()}
-        activeOpacity={0.7}
-      >
-        <View style={[localStyles.menuIcon, { backgroundColor: `${item.color}20` }]}>
-          <item.icon size={24} color={item.color} />
-        </View>
-        <Text style={[styles.body, { flex: 1, fontWeight: '600' }]}>
-          {item.title}
-        </Text>
-        <ChevronRight size={20} color={colors.textSecondary} />
-      </TouchableOpacity>
-    );
-  };
+  const renderMenuItem = (item) => (
+    <TouchableOpacity
+      key={item.id}
+      style={[
+        localStyles.menuItem,
+        {
+          backgroundColor: colors.card,
+          ...Shadows.small,
+        },
+      ]}
+      onPress={() => navigation.navigate(item.screen)}
+      activeOpacity={0.7}
+    >
+      <View style={[localStyles.menuIcon, { backgroundColor: `${item.color}20` }]}>
+        <item.icon size={24} color={item.color} />
+      </View>
+      <Text style={[styles.body, { flex: 1, fontWeight: '600' }]}>
+        {item.title}
+      </Text>
+      <ChevronRight size={20} color={colors.textSecondary} />
+    </TouchableOpacity>
+  );
+  
+  const renderAdminMenuItem = (item) => (
+    <TouchableOpacity
+      key={item.id}
+      style={[
+        localStyles.menuItem,
+        {
+          backgroundColor: colors.card,
+          ...Shadows.small,
+        },
+      ]}
+      onPress={() => navigation.navigate(item.screen)}
+      activeOpacity={0.7}
+    >
+      <View style={[localStyles.menuIcon, { backgroundColor: `${item.color}20` }]}>
+        <item.icon size={24} color={item.color} />
+      </View>
+      <Text style={[styles.body, { flex: 1, fontWeight: '600' }]}>
+        {item.title}
+      </Text>
+      <ChevronRight size={20} color={colors.textSecondary} />
+    </TouchableOpacity>
+  );
   
   return (
     <SafeAreaView style={[styles.safeArea, { backgroundColor: colors.background }]}>
@@ -171,6 +190,18 @@ const MoreScreen = ({ navigation }) => {
         <View style={localStyles.menuList}>
           {menuItems.map(renderMenuItem)}
         </View>
+        
+        {/* Admin Section */}
+        {isAdmin && (
+          <>
+            <Text style={[styles.heading3, { marginBottom: Spacing.base, marginTop: Spacing.xl }]}>
+              Admin İşlemleri
+            </Text>
+            <View style={localStyles.menuList}>
+              {adminMenuItems.map(renderAdminMenuItem)}
+            </View>
+          </>
+        )}
         
         {/* Settings Section */}
         <Text style={[styles.heading3, { marginBottom: Spacing.base, marginTop: Spacing.xl }]}>
