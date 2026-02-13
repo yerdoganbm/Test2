@@ -150,46 +150,47 @@ const MatchesScreen = () => {
               </View>
             )}
           </View>
-        
-        <View style={localStyles.matchCardInfo}>
-          <View style={localStyles.matchCardInfoItem}>
-            <MapPin size={16} color={colors.textSecondary} />
-            <Text style={[styles.caption, { marginLeft: 6 }]}>
-              {field?.address?.substring(0, 40)}...
-            </Text>
-          </View>
           
-          <View style={localStyles.matchCardInfoRow}>
+          <View style={localStyles.matchCardInfo}>
             <View style={localStyles.matchCardInfoItem}>
-              <Users size={16} color={colors.primary} />
-              <Text style={[styles.caption, { marginLeft: 6, color: colors.primary }]}>
-                {yesCount} Oyuncu
+              <MapPin size={16} color={colors.textSecondary} />
+              <Text style={[styles.caption, { marginLeft: 6 }]}>
+                {field?.address?.substring(0, 40)}...
               </Text>
             </View>
             
-            <View style={localStyles.matchCardInfoItem}>
-              <Clock size={16} color={colors.textSecondary} />
-              <Text style={[styles.caption, { marginLeft: 6 }]}>
-                ₺{match.costPerPerson.toFixed(2)}
-              </Text>
+            <View style={localStyles.matchCardInfoRow}>
+              <View style={localStyles.matchCardInfoItem}>
+                <Users size={16} color={colors.primary} />
+                <Text style={[styles.caption, { marginLeft: 6, color: colors.primary }]}>
+                  {yesCount} Oyuncu
+                </Text>
+              </View>
+              
+              <View style={localStyles.matchCardInfoItem}>
+                <Clock size={16} color={colors.textSecondary} />
+                <Text style={[styles.caption, { marginLeft: 6 }]}>
+                  ₺{match.costPerPerson.toFixed(2)}
+                </Text>
+              </View>
             </View>
           </View>
+          
+          {isPast && (
+            <TouchableOpacity
+              style={[
+                localStyles.reportButton,
+                { backgroundColor: colors.backgroundSecondary, borderColor: colors.border },
+              ]}
+              activeOpacity={0.7}
+            >
+              <FileText size={18} color={colors.primary} />
+              <Text style={[localStyles.reportButtonText, { color: colors.primary }]}>
+                Maç Raporu
+              </Text>
+            </TouchableOpacity>
+          )}
         </View>
-        
-        {isPast && (
-          <TouchableOpacity
-            style={[
-              localStyles.reportButton,
-              { backgroundColor: colors.backgroundSecondary, borderColor: colors.border },
-            ]}
-            activeOpacity={0.7}
-          >
-            <FileText size={18} color={colors.primary} />
-            <Text style={[localStyles.reportButtonText, { color: colors.primary }]}>
-              Maç Raporu
-            </Text>
-          </TouchableOpacity>
-        )}
       </TouchableOpacity>
     );
   };
