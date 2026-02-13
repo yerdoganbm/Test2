@@ -108,6 +108,7 @@ const PaymentsScreen = () => {
           localStyles.paymentItem,
           {
             backgroundColor: colors.card,
+            borderLeftWidth: 4,
             borderLeftColor: isPaid ? colors.success : colors.error,
             ...Shadows.small,
           },
@@ -117,24 +118,39 @@ const PaymentsScreen = () => {
           <View
             style={[
               localStyles.paymentAvatar,
-              { backgroundColor: isPaid ? colors.accentLight : '#FEE2E2' },
+              { 
+                backgroundColor: isPaid ? colors.successLight : colors.errorLight,
+                borderWidth: 2,
+                borderColor: isPaid ? colors.success : colors.error,
+              },
             ]}
           >
             <Text
               style={[
                 localStyles.paymentAvatarText,
-                { color: isPaid ? colors.primary : colors.error },
+                { color: isPaid ? colors.success : colors.error },
               ]}
             >
               {user.nickname.substring(0, 2).toUpperCase()}
             </Text>
           </View>
           <View style={localStyles.paymentInfo}>
-            <Text style={[styles.body, { fontWeight: '600' }]}>{user.nickname}</Text>
-            <Text style={styles.caption}>{user.phone}</Text>
+            <View style={{ flexDirection: 'row', alignItems: 'center', gap: 6 }}>
+              <Text style={[styles.body, { fontWeight: '600' }]}>{user.nickname}</Text>
+              {isPaid && (
+                <View style={[localStyles.checkBadge, { backgroundColor: colors.successLight }]}>
+                  <Text style={{ fontSize: 10, color: colors.success }}>✓</Text>
+                </View>
+              )}
+            </View>
             {isPaid && payment.paidAt && (
               <Text style={[styles.caption, { color: colors.success, marginTop: 2 }]}>
-                ✓ {new Date(payment.paidAt).toLocaleDateString('tr-TR')}
+                {new Date(payment.paidAt).toLocaleDateString('tr-TR')}
+              </Text>
+            )}
+            {!isPaid && (
+              <Text style={[styles.caption, { color: colors.error, marginTop: 2 }]}>
+                Ödeme bekleniyor
               </Text>
             )}
           </View>
@@ -537,15 +553,22 @@ const localStyles = StyleSheet.create({
     gap: Spacing.md,
   },
   paymentAvatar: {
-    width: 48,
-    height: 48,
-    borderRadius: BorderRadius.md,
+    width: 52,
+    height: 52,
+    borderRadius: BorderRadius.lg,
     justifyContent: 'center',
     alignItems: 'center',
   },
   paymentAvatarText: {
     fontSize: 16,
     fontWeight: '700',
+  },
+  checkBadge: {
+    width: 20,
+    height: 20,
+    borderRadius: 10,
+    justifyContent: 'center',
+    alignItems: 'center',
   },
   paymentInfo: {
     flex: 1,

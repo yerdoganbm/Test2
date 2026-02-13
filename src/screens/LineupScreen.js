@@ -107,7 +107,7 @@ const LineupScreen = () => {
     if (!user) return null;
     
     const coords = getPositionCoordinates(player.position, teamIndex, playerIndex, 0);
-    const left = coords.x * FIELD_WIDTH - 28; // 28 = half of player circle
+    const left = coords.x * FIELD_WIDTH - 28;
     const top = coords.y * FIELD_HEIGHT - 28;
     
     return (
@@ -119,21 +119,23 @@ const LineupScreen = () => {
             left,
             top,
             backgroundColor: teamIndex === 0 ? colors.primary : colors.error,
-            ...Shadows.medium,
+            ...Shadows.large,
           },
         ]}
       >
         <Text style={localStyles.playerInitials}>
           {user.nickname.substring(0, 2).toUpperCase()}
         </Text>
-        <Text style={localStyles.playerName}>{user.nickname.split(' ')[0]}</Text>
+        <View style={localStyles.playerNameBadge}>
+          <Text style={localStyles.playerName}>{user.nickname.split(' ')[0]}</Text>
+        </View>
         <View
           style={[
             localStyles.playerRating,
-            { backgroundColor: teamIndex === 0 ? colors.primaryDark : '#DC2626' },
+            { backgroundColor: teamIndex === 0 ? colors.primaryDark : '#991B1B' },
           ]}
         >
-          <Text style={localStyles.playerRatingText}>{user.skillRating.toFixed(1)}</Text>
+          <Text style={localStyles.playerRatingText}>⭐{user.skillRating.toFixed(1)}</Text>
         </View>
       </View>
     );
@@ -529,31 +531,36 @@ const localStyles = StyleSheet.create({
     fontWeight: '700',
     color: '#FFFFFF',
   },
-  playerName: {
+  playerNameBadge: {
     position: 'absolute',
-    bottom: -20,
+    bottom: -22,
+    backgroundColor: 'rgba(0, 0, 0, 0.7)',
+    paddingHorizontal: 8,
+    paddingVertical: 4,
+    borderRadius: BorderRadius.md,
+    ...Shadows.medium,
+  },
+  playerName: {
     fontSize: 10,
     fontWeight: '600',
     color: '#FFFFFF',
-    backgroundColor: 'rgba(0, 0, 0, 0.5)',
-    paddingHorizontal: 6,
-    paddingVertical: 2,
-    borderRadius: 8,
   },
   playerRating: {
     position: 'absolute',
-    top: -8,
-    right: -8,
-    width: 24,
+    top: -10,
+    right: -10,
+    minWidth: 32,
     height: 24,
     borderRadius: 12,
+    paddingHorizontal: 6,
     justifyContent: 'center',
     alignItems: 'center',
     borderWidth: 2,
     borderColor: '#FFFFFF',
+    ...Shadows.small,
   },
   playerRatingText: {
-    fontSize: 10,
+    fontSize: 9,
     fontWeight: '700',
     color: '#FFFFFF',
   },

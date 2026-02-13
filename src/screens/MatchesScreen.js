@@ -91,46 +91,58 @@ const MatchesScreen = () => {
           {
             backgroundColor: colors.card,
             borderLeftColor: isPast ? colors.textSecondary : colors.primary,
+            borderLeftWidth: 4,
             ...Shadows.medium,
           },
         ]}
         activeOpacity={0.8}
       >
-        <View style={localStyles.matchCardHeader}>
-          <View style={{ flex: 1 }}>
-            <Text style={[styles.heading3, { fontSize: 18 }]}>{field?.name}</Text>
-            <Text style={[styles.caption, { marginTop: 4 }]}>
-              {formatDate(match.startsAt)} • {formatTime(match.startsAt)}
-            </Text>
-          </View>
-          {isPast && match.score && (
-            <View style={localStyles.scoreContainer}>
-              <Text style={[localStyles.scoreText, { color: colors.text }]}>
-                {match.score.team1} - {match.score.team2}
+        {/* Date Badge */}
+        <View style={[localStyles.dateBadge, { backgroundColor: isPast ? colors.backgroundSecondary : colors.accentLight }]}>
+          <Text style={[localStyles.dateBadgeDay, { color: isPast ? colors.textSecondary : colors.primary }]}>
+            {new Date(match.startsAt).getDate()}
+          </Text>
+          <Text style={[localStyles.dateBadgeMonth, { color: isPast ? colors.textSecondary : colors.primary }]}>
+            {new Date(match.startsAt).toLocaleDateString('tr-TR', { month: 'short' }).toUpperCase()}
+          </Text>
+        </View>
+        
+        <View style={localStyles.matchCardContent}>
+          <View style={localStyles.matchCardHeader}>
+            <View style={{ flex: 1 }}>
+              <Text style={[styles.heading3, { fontSize: 18 }]}>{field?.name}</Text>
+              <Text style={[styles.caption, { marginTop: 4 }]}>
+                {formatTime(match.startsAt)} • {yesCount} oyuncu
               </Text>
             </View>
-          )}
-          {!isPast && (
-            <View
-              style={[
-                localStyles.statusBadge,
-                {
-                  backgroundColor:
-                    match.status === 'OPEN' ? colors.accentLight : colors.borderLight,
-                },
-              ]}
-            >
-              <Text
+            {isPast && match.score && (
+              <View style={[localStyles.scoreContainer, { backgroundColor: colors.accentLight }]}>
+                <Text style={[localStyles.scoreText, { color: colors.primary }]}>
+                  {match.score.team1} - {match.score.team2}
+                </Text>
+              </View>
+            )}
+            {!isPast && (
+              <View
                 style={[
-                  localStyles.statusBadgeText,
-                  { color: match.status === 'OPEN' ? colors.primary : colors.textSecondary },
+                  localStyles.statusBadge,
+                  {
+                    backgroundColor:
+                      match.status === 'OPEN' ? colors.successLight : colors.borderLight,
+                  },
                 ]}
               >
-                {match.status === 'OPEN' ? 'Açık' : 'Kilitli'}
-              </Text>
-            </View>
-          )}
-        </View>
+                <Text
+                  style={[
+                    localStyles.statusBadgeText,
+                    { color: match.status === 'OPEN' ? colors.success : colors.textSecondary },
+                  ]}
+                >
+                  {match.status === 'OPEN' ? '✓ Açık' : '🔒 Kilitli'}
+                </Text>
+              </View>
+            )}
+          </View>
         
         <View style={localStyles.matchCardInfo}>
           <View style={localStyles.matchCardInfoItem}>
@@ -399,16 +411,36 @@ const localStyles = StyleSheet.create({
     paddingBottom: Spacing['4xl'],
   },
   matchCard: {
+    flexDirection: 'row',
     borderRadius: BorderRadius.base,
     padding: Spacing.base,
     marginBottom: Spacing.base,
-    borderLeftWidth: 4,
+    gap: Spacing.md,
+  },
+  dateBadge: {
+    width: 60,
+    height: 60,
+    borderRadius: BorderRadius.md,
+    justifyContent: 'center',
+    alignItems: 'center',
+  },
+  dateBadgeDay: {
+    fontSize: 24,
+    fontWeight: '700',
+  },
+  dateBadgeMonth: {
+    fontSize: 10,
+    fontWeight: '600',
+    marginTop: 2,
+  },
+  matchCardContent: {
+    flex: 1,
   },
   matchCardHeader: {
     flexDirection: 'row',
     justifyContent: 'space-between',
     alignItems: 'flex-start',
-    marginBottom: Spacing.md,
+    marginBottom: Spacing.sm,
   },
   scoreContainer: {
     backgroundColor: 'rgba(16, 185, 129, 0.1)',

@@ -120,6 +120,13 @@ const AdminScreen = () => {
         ? colors.warning
         : colors.error;
     
+    const reliabilityBg =
+      user.reliabilityScore >= 90
+        ? colors.successLight
+        : user.reliabilityScore >= 70
+        ? colors.warningLight
+        : colors.errorLight;
+    
     return (
       <TouchableOpacity
         key={user.id}
@@ -137,7 +144,11 @@ const AdminScreen = () => {
           <View
             style={[
               localStyles.userAvatar,
-              { backgroundColor: colors.accentLight },
+              { 
+                backgroundColor: colors.accentLight,
+                borderWidth: 2,
+                borderColor: colors.primary,
+              },
             ]}
           >
             <Text style={[localStyles.userAvatarText, { color: colors.primary }]}>
@@ -145,13 +156,21 @@ const AdminScreen = () => {
             </Text>
           </View>
           <View style={localStyles.userInfo}>
-            <Text style={[styles.body, { fontWeight: '600' }]}>
-              {user.nickname}
+            <View style={{ flexDirection: 'row', alignItems: 'center', gap: 6 }}>
+              <Text style={[styles.body, { fontWeight: '600' }]}>
+                {user.nickname}
+              </Text>
               {user.role === 'ADMIN' && (
-                <Text style={{ color: colors.primary }}> (Admin)</Text>
+                <View style={[localStyles.adminBadge, { backgroundColor: colors.primaryLight }]}>
+                  <Text style={[localStyles.adminBadgeText, { color: '#FFFFFF' }]}>
+                    👑 Admin
+                  </Text>
+                </View>
               )}
+            </View>
+            <Text style={[styles.caption, { marginTop: 2 }]}>
+              {user.preferredPositions.join(' • ')}
             </Text>
-            <Text style={styles.caption}>{user.preferredPositions.join(', ')}</Text>
             <View style={localStyles.userStats}>
               <View
                 style={[
@@ -164,19 +183,18 @@ const AdminScreen = () => {
                   {user.skillRating.toFixed(1)}
                 </Text>
               </View>
+              <View
+                style={[
+                  localStyles.userStatBadge,
+                  { backgroundColor: reliabilityBg },
+                ]}
+              >
+                <Text style={[localStyles.userStatText, { color: reliabilityColor }]}>
+                  {user.reliabilityScore}% Güven
+                </Text>
+              </View>
             </View>
           </View>
-        </View>
-        <View style={localStyles.userCardRight}>
-          <View
-            style={[
-              localStyles.reliabilityBadge,
-              { backgroundColor: reliabilityColor },
-            ]}
-          >
-            <Text style={localStyles.reliabilityText}>{user.reliabilityScore}</Text>
-          </View>
-          <Text style={[styles.caption, { marginTop: 4 }]}>Güven</Text>
         </View>
       </TouchableOpacity>
     );
@@ -617,16 +635,25 @@ const localStyles = StyleSheet.create({
   userInfo: {
     flex: 1,
   },
+  adminBadge: {
+    paddingHorizontal: Spacing.sm,
+    paddingVertical: 2,
+    borderRadius: BorderRadius.full,
+  },
+  adminBadgeText: {
+    fontSize: 10,
+    fontWeight: '600',
+  },
   userStats: {
     flexDirection: 'row',
     gap: Spacing.xs,
-    marginTop: 4,
+    marginTop: 6,
   },
   userStatBadge: {
     flexDirection: 'row',
     alignItems: 'center',
-    paddingHorizontal: Spacing.xs,
-    paddingVertical: 2,
+    paddingHorizontal: Spacing.sm,
+    paddingVertical: 4,
     borderRadius: BorderRadius.full,
     gap: 4,
   },
